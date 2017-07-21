@@ -81,6 +81,7 @@ long set = 30;
 
 void setup()
 {
+    pinMode(LED_BUILTIN, OUTPUT);
     Serial.begin(9600);
 }
 
@@ -88,21 +89,38 @@ std::vector<String> determine;
 
 void loop()
 {   
+//  Serial.println("reading xy");
+        digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(100);                       // wait for a second
+  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+  delay(100);
      long RangeInInches1;
      long RangeInInches2;
 
      ultrasonic2.DistanceMeasure();// get the current signal time;
      RangeInInches2 = ultrasonic2.microsecondsToInches();//convert the time to inches;
 
-
+Serial.println(RangeInInches2);
      ultrasonic1.DistanceMeasure();// get the current signal time;
      RangeInInches1 = ultrasonic1.microsecondsToInches();//convert the time to inches;
+Serial.println(RangeInInches1);
 
     bool hit1 = false;
     bool hit2 = false;
-
+/*
+Serial.println(hit1);
+Serial.println(hit2);
+*/
     if(RangeInInches1 < set) hit1 = true;
     if(RangeInInches2 < set) hit2 = true;
+//Serial.println("2");
+
+  if(hit1){
+    Serial.println("hit1");
+  }
+  if(hit1){
+    Serial.println("hit2");
+  }
     
     String coming = " "; 
 //    Serial.println(String(RangeInInches1) + " " + String(RangeInInches2));
@@ -125,7 +143,7 @@ void loop()
         Serial.println("visitor is coming");
       else if (determine.at(0) == "out" && determine.at(1) == "both" && determine.at(2) == "in")
         Serial.println("visitor is leaving");
-//      else Serial.println(determine.at(0) + " " + determine.at(1) + " " +determine.at(2));
+      else Serial.println(determine.at(0) + " " + determine.at(1) + " " +determine.at(2));
       
       determine.clear();
     }
@@ -134,7 +152,8 @@ void loop()
 //    else if(determine.at(2) == "waiting") 
 //      determine.clear();
 //    Serial.println("Visitor is : " + coming);
-
+//Serial.println("about to delay");
     delay(100);
+
 }
 
